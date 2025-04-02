@@ -4,9 +4,8 @@
   "description": "Cloud Computing Project to design and implement a serverless function execution platform, similar to AWS Lambda.",
   "main": "index.js",
   "scripts": {
-  "test": "echo \"No tests yet!\" && exit 0"
-}
-,
+    "test": "echo \"No tests yet!\" && exit 0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aryanmishra333/PES2UG22CS100_PES2UG22CS103_PES2UG22CS110_PES2UG22CS117_LAMBDA-Serverless_Function.git"
@@ -23,6 +22,7 @@
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
     "pg": "^8.14.1",
+    "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.7"
   }
 }

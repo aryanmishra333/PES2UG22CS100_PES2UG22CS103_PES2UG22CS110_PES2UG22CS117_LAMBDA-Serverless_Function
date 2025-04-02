@@ -1,25 +1,21 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const path = require('path');
-const functionRoutes = require('./routes/functions'); // your function routes
+require("dotenv").config();
+const express = require("express");
+const { connectDB, sequelize } = require("./database");
+const functionRoutes = require("./routes/functions");
 
-dotenv.config();
 const app = express();
-app.use(cors());
 app.use(express.json());
 
-// Serve static files from the 'public' folder
-app.use(express.static(path.join(__dirname, 'public')));
+// Routes
+app.use("/functions", functionRoutes);
 
-// Add a route for the root URL
-app.get('/', (req, res) => {
-  res.send('Welcome to Lambda Serverless Function Platform!');
-});
+const PORT = process.env.PORT || 3000;
 
-// API routes for functions
-app.use('/api', functionRoutes);
+// Start server
+const startServer = async () => {
+  await connectDB();
+  await sequelize.sync(); // Sync DB tables
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+};
 
-app.listen(3000, '0.0.0.0', () => {
-  console.log('Server is running on port 3000');
-});
+startServer();

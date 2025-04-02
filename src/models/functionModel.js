@@ -1,15 +1,34 @@
-const pool = require('../database');
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../database");
 
-const createTableQuery = `
-  CREATE TABLE IF NOT EXISTS functions (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    route VARCHAR(255) NOT NULL UNIQUE,
-    language VARCHAR(50) CHECK (language IN ('python', 'javascript')),
-    timeout INTEGER DEFAULT 5000
-  );
-`;
+const FunctionModel = sequelize.define("Function", {
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  route: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  language: {
+    type: DataTypes.ENUM("python", "javascript"),
+    allowNull: false,
+  },
+  timeout: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 5000, // Default timeout 5s
+  },
+  code: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+});
 
-pool.query(createTableQuery)
-  .then(() => console.log('Table created'))
-  .catch(err => console.error('Error creating table', err));
+module.exports = FunctionModel;
